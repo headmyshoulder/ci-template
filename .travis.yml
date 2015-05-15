@@ -3,6 +3,8 @@ depth:
 
 language: cpp
 
+sudo: true 
+
 compiler:
   - gcc
   - clang
