@@ -3,6 +3,7 @@ depth:
 
 language: cpp
 
+# need to set to tell travis not to use docker, otherwise sudo would not work
 sudo: true 
 
 compiler:
