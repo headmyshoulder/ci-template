@@ -57,7 +57,7 @@ script:
   - .ci/build_and_test.sh
   
 after_success:
-  - cd $CIT_ROOT
-  - if [ -n "$MASTER_BUILD" ]; then .ci/commit_coverity_scan.sh; fi
   # - cd $CIT_ROOT
-  # - if [ -n "$COVERALLS_BUILD" ]; then .ci/commit_coveralls.sh; fi 
+  # - if [ -n "$MASTER_BUILD" ]; then .ci/commit_coverity_scan.sh; fi
+  - cd $CIT_ROOT
+  - if [ -n "$COVERALLS_BUILD" ]; then .ci/commit_coveralls.sh; fi 
