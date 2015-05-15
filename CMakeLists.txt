@@ -19,7 +19,7 @@ if ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
   set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++" )
 endif ()
 
-
+option ( TEST_COVERAGE "Analyze test coverage with gcov/lcov" OFF )
 if ( ${TEST_COVERAGE} )
   message ( STATUS "Build with test coverage support." )
   set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage" )
