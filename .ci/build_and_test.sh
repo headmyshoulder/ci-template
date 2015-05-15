@@ -26,5 +26,5 @@ fi
 if [ -n "$RUN_VALGRIND" ];
 then 
     VALGRIND_CMD="valgrind --leak-check=full --show-reachable=yes --error-exitcode=1 "
-    $VALGRIND_CMD test/api_tests
+    $VALGRIND_CMD test/cit_tests
 fi
