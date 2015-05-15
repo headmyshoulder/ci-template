@@ -8,7 +8,7 @@
 #
 
 
-project ( ci-template )
+project ( cit )
 
 cmake_minimum_required ( VERSION 2.6 )
 
@@ -29,7 +29,6 @@ endif ()
 
 
 include_directories ( include )
-
 
 
 add_subdirectory ( examples )

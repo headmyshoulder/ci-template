@@ -11,7 +11,7 @@
 #define API_HPP_INCLUDED
 
 
-namespace api {
+namespace cit {
     
 inline int foo1( int a ) { return a * 2; }
 

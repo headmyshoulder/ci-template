@@ -7,7 +7,7 @@
  *
  */
 
-#include <ci/api.hpp>
+#include <cit/api.hpp>
 
 
 #include <iostream>
@@ -17,7 +17,7 @@ using namespace std;
 
 int main( int argc , char *argv[] )
 {
-    cout << api::foo1( 10 ) << endl;
-    cout << api::foo2( 10 ) << endl;
+    cout << cit::foo1( 10 ) << endl;
+    cout << cit::foo2( 10 ) << endl;
     return 0;
 }
