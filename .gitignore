@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+
+*.kdev4
+build
+third_party
+
