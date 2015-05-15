@@ -13,9 +13,15 @@
 
 namespace cit {
     
-inline int foo1( int a ) { return a * 2; }
+inline int foo1( int a )
+{
+    return a * 2;
+}
 
-inline int foo2( int a ) { return a * 3; }
+inline int foo2( int a )
+{
+    return a * 3;
+}
     
 }
 
