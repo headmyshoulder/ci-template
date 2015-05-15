@@ -1,0 +1,60 @@
+git:
+  depth: 200
+
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
+os: 
+  - linux
+  - osx
+
+env:
+  global:
+    - GCC_VERSION="4.9"
+    - RUN_VALGRIND=1
+    # COVERITY_SCAN_TOKEN
+    - secure: "KFTdHiHehYwK2SciIhdv3eDwi6nNWpwyjv8RqfiWs1ItFjr1292kLwKUVcjEz15tVQMmkWz8IbXe1YFMUbd8lswyRFO6Cpeaw9MP8yfnGkOxtdSddEtQyaujY8eiYQPkPjCGXg3uxzmhGdHx7OI4REcrjoWmKZvMXi/01CnXLnU="
+
+  matrix:
+    - BUILD_TYPE=Debug
+    - BUILD_TYPE=Release
+
+matrix:
+  exclude:
+    # For now disable gcc on osx as g++4.8 is not yet available
+    - os: osx   
+      compiler: gcc
+
+    
+    
+before_install:
+  - export CI_ROOT=`pwd`
+  - cd $CI_ROOT
+  - if [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TRAVIS_BRANCH" == "master" ]; then export MASTER_BUILD=1; fi
+  - if [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ]; then export COVERALLS_BUILD=1; fi
+  - if [ -n "$MASTER_BUILD" ]; then echo "This is the Master build"; fi
+  - if [ -n "$COVERALLS_BUILD" ]; then echo "This is the coverall build"; fi
+  - if [ -n "$RUN_VALGRIND" ]; then echo "Running valgrind"; fi
+  - .ci/setup_compiler.sh
+  - .ci/init_thirdparty.sh
+
+
+
+
+
+install:
+  - cd $CI_ROOT
+  - mkdir build
+
+script:
+  - cd $CI_ROOT
+  - .ci/build_and_test.sh
+  
+after_success:
+  # - cd $CI_ROOT
+  # - if [ -n "$MASTER_BUILD" ]; then .ci/commit_coverity_scan.sh; fi
+  # - cd $CI_ROOT
+  # - if [ -n "$COVERALLS_BUILD" ]; then .ci/commit_coveralls.sh; fi 

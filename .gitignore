@@ -30,4 +30,4 @@
 *.kdev4
 build
 third_party
-
+*~
