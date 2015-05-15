@@ -10,7 +10,7 @@
 
 project ( cit )
 
-cmake_minimum_required ( VERSION 2.6 )
+cmake_minimum_required ( VERSION 2.8 )
 
 option ( TEST_COVERAGE "Analyze test coverage with gcov/lcov" OFF )
 
