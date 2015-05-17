@@ -15,7 +15,17 @@ namespace cit {
     
 inline int foo1( int a )
 {
-    return a * 2;
+    if( a > 5 )
+    {
+        int* p = new int;
+        *p = 5;
+        return a * (*p) * 2;
+    }
+    else
+    {
+        return a * 2;
+    }
+    
 }
 
 inline int foo2( int a )

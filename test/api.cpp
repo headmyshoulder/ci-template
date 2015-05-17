@@ -13,5 +13,5 @@
 
 TEST( api_tests , foo1 )
 {
-    EXPECT_EQ( 20 , cit::foo1( 10 ) );
+    EXPECT_EQ( 100 , cit::foo1( 10 ) );
 }
