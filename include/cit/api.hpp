@@ -15,17 +15,20 @@ namespace cit {
     
 inline int foo1( int a )
 {
+    int* p = nullptr;
     if( a > 5 )
     {
-        int* p = new int;
+        p = new int;
         *p = 5;
-        return a * (*p) * 2;
     }
     else
     {
-        return a * 2;
+        *p = 10;
     }
+    int x = a * (*p) * 2;
+    delete p;
     
+    return x;
 }
 
 inline int foo2( int a )
