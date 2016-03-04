@@ -36,7 +36,7 @@ if [ "$LIBCXX" == "on" ]; then
     (cd llvm/build/projects/libcxxabi && make install -j2)
     # cp llvm/projects/libcxxabi/include/* ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
 
-    - ls ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
+
 fi
 
 
