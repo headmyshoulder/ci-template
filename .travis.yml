@@ -1,7 +1,7 @@
 depth:
   git: 200
 
-language: c++
+language: cpp
 
 sudo: false
 

@@ -50,7 +50,7 @@ then
     cd $THIRD_PARTY_ROOT
     curl http://ftp.uk.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz -O
     tar xfz lcov_1.11.orig.tar.gz
-    mkdir -p lcov && make -C lcov-1.11/ install PREFIX=~/lcov
+    mkdir -p lcov && make -C lcov-1.11/ install PREFIX=$THIRD_PARTY_ROOT/lcov
     export PATH=$THIRD_PARTY_ROOT/lcov/usr/bin:$PATH
     rm -Rf lcov-1.11/ lcov_1.11.orig.tar.gz
     echo $PATH
