@@ -107,7 +107,7 @@ before_install:
   - .ci/setup_compiler.sh
   - .ci/init_thirdparty.sh
 
-  - echo $THIRD_PARTY_ROOT
+  - echo $PATH
   - lcov --version
   - which lcov
 
