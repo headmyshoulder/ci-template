@@ -14,8 +14,7 @@ export BOOST_ROOT="${THIRD_PARTY_ROOT}/boost"
 cd $BOOST_ROOT
 ./bootstrap.sh
 
-echo "\n\n" >> project-config.jam
-echo "using gcc ;"
+echo "using gcc ; " >> project-config.jam
 echo "using gcc : 4.9 : g++-4.9 ;" >> project-config.jam
 echo "using gcc : 5.0 : g++-5.0 ;" >> project-config.jam
 echo "using gcc : 5.1 : g++-5.1 ;" >> project-config.jam
