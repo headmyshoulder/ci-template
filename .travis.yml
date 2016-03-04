@@ -108,7 +108,7 @@ before_install:
 
   - .ci/init_thirdparty.sh
 
-  - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin
+  - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
   
   - lcov --version
