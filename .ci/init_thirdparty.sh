@@ -31,4 +31,4 @@ if [ "$LIBCXX" == "on" ]; then
 fi
 
 
-./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags="${ADDITIONAL_FLAGS} ${CXX_FLAGS}" --linkflags="${LDD_FLAGS}"
+./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags="${ADDITIONAL_FLAGS} ${CXXFLAGS}" --linkflags="${LDFLAGS}"
