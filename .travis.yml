@@ -106,8 +106,14 @@ before_install:
   
   - .ci/setup_compiler.sh
 
+  - |
+      if [ "$LIBCXX" == "on" ]; then
+        export CXXFLAGS="-isystem ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1"
+        export LDFLAGS="-L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
+        export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
+      fi
+  
   - .ci/init_thirdparty.sh
-
   - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
   
