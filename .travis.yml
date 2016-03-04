@@ -115,7 +115,7 @@ before_install:
       fi
   - export PATH=${THIRD_PARTY_ROOT}/cmake/bin:${PATH}
   - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
-  
+
   - .ci/init_thirdparty.sh
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
 
@@ -129,6 +129,8 @@ install:
 script:
   - cd $CIT_ROOT
   - .ci/build_and_test.sh
+  - cd $CIT_ROOT
+  - ./build/examples/example1
   
 after_success:
   - cd $CIT_ROOT
