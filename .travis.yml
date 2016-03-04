@@ -133,7 +133,7 @@ before_install:
 
   - cd $CIT_ROOT
   - .ci/init_thirdparty.sh
-
+  - ls ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
 
 
 
