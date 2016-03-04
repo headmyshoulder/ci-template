@@ -6,17 +6,6 @@ then
     export GCOV=/usr/bin/gcov-$GCC_VERSION
 fi
 
-cd $THIRD_PARTY_ROOT
-if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-  CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz"
-  mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
-  export PATH=${THIRD_PARTY_ROOT}/cmake/bin:${PATH}
-else
-  brew install cmake
-fi
-
-
-
 if [ "$LIBCXX" == "on" ]; then
 
     cd $THIRD_PARTY_ROOT

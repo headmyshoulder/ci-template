@@ -9,9 +9,7 @@ mv gmock-1.7.0 $THIRD_PARTY_ROOT/gmock
 
 wget http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.bz2/download -O /tmp/boost.tar.bz2
 tar jxf /tmp/boost.tar.bz2
-mv boost_1_57_0 $THIRD_PARTY_ROOT/boost
-export BOOST_ROOT="${THIRD_PARTY_ROOT}/boost"
-cd $BOOST_ROOT
+mv boost_1_57_0 $BOOST_ROOT
 ./bootstrap.sh
 
 
@@ -30,4 +28,6 @@ ADDITIONAL_FLAGS="-std=c+14"
 if [ "$LIBCXX" == "on" ]; then
   ADDITIONAL_FLAGS="${ADDITIONAL_FLAGS} -stdlib=libc++"
 fi
+
+
 ./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags="${ADDITIONAL_FLAGS} ${CXX_FLAGS}" --linkflags="${LDD_FLAGS}"
