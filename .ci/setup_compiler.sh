@@ -31,7 +31,7 @@ if [ "$LIBCXX" == "on" ]; then
     wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm
     wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxx
     wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxxabi
-    (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_ROOT}/llvm/install -DCMAKE_CXX_COMPILER=clang++)
+    (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_ROOT}/llvm/install -DCMAKE_CXX_COMPILER=${CXX} )
     (cd llvm/build/projects/libcxx && make install -j2)
     (cd llvm/build/projects/libcxxabi && make install -j2)
 fi
