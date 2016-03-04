@@ -106,11 +106,13 @@ before_install:
   
   - .ci/setup_compiler.sh
 
-  - echo $PATH
-  - lcov --version
-  - which lcov
-
   - .ci/init_thirdparty.sh
+
+  - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin
+  - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
+  
+  - lcov --version
+
 
 
 
