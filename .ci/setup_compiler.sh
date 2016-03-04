@@ -1,17 +1,11 @@
 set -x
 set -e
 
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-sudo apt-get update -qq
-
 if [ "$CXX" == "g++" ];
 then
-    sudo apt-get install -qq g++-$GCC_VERSION
-
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VERSION 90
-    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VERSION 90
-    sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-$GCC_VERSION 90
+    export GCOV=/usr/bin/gcov-$GCC_VERSION
 fi
+
 
 if [ "$CXX" == "clang++" ];
 then
@@ -38,6 +32,7 @@ then
     sudo ln -sf libc++abi.so.1.0 libc++abi.so.1 && cd $cwd
 fi
 
+
 if [ -n "$COVERALLS_BUILD" ];
 then
     # gcc 4.9 does not work with lcov 1.10, we need to install lcov 1.11
@@ -48,15 +43,7 @@ then
     sudo make install
     cd ..
     rm -Rf lcov lcov.tar.gz
-    # sudo apt-get install -qq lcov
-
-    sudo apt-get install -qq python-yaml
+    
     gem install coveralls-lcov
 fi
 
-
-# install valgrind
-if [ "$TRAVIS_OS_NAME" = "linux" ];
-then
-    sudo apt-get -qq install valgrind
-fi

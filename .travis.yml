@@ -1,47 +1,98 @@
 depth:
   git: 200
 
-language: cpp
+language: c++
 
 # need to set to tell travis not to use docker, otherwise sudo would not work
-sudo: true 
+sudo: false
 
-compiler:
-  - gcc
-  - clang
+# compiler:
+#   - gcc
+#   - clang
 
-os: 
-  - linux
-  - osx
+# os: 
+#   - linux
+#   - osx
 
 env:
   global:
-    - GCC_VERSION="4.9"
-    - RUN_VALGRIND=1
+    # - GCC_VERSION="4.9"
+    # - RUN_VALGRIND=1
+    
     # COVERITY_SCAN_TOKEN
     - secure: "SoIopnIFQ04YA4Mhh1+jmPnh+Sh56koofPdvyMuGeR0Re/qHLUsnfpe4TS4LpX3lqqLandWUGzq/PHO5eeNG9zL5OeqtUeXaXOuPHPm3OBkXjTXDsdULe0BnefqMJpQSm+VzD6XvZuW4EdaXb8vy79i9AkjwyjB6MFPYKFz4DbJS4pNEyutASZNJd+fEDAk0EAN4S+cnlo6FDWruypxpTpdeISDmikepLlAzCJfyYE2wxgmXTrUQohbUUbgSikqtZGI3Z0pzfP5+/WkeJYqSCJzZMVHRvzDZYUPnGMB8uJH+hC/ThF1bJpjdxS47UF0gmbx49sRX+VCjimwJ8fxVL8zCXPx4FwtTIK1qmSYROyXRdQfJJd94cSEiyRZwRWeIdWTH6JwmIL8qXBA2YEMl4C4HHJTThq71HsO4yWNYJ9RRrM6IB9QsT9JAjHlx90KyafhHAkJbUCS+X7tAi3kZreUFGb4LgqVWXmoMOQb3+1093DhsTntrbDiqMGD1J3D6QptHxEIiDY40LWrjSym470ENDIGg0si2vCQ1Ey+kQvcRnSBtgfbt3gi/SFTM8WNJAd6rbq5GKmZ7XTRMCFX8QuvJCer3QBaOckJpHQG+66hj6DSw5yVxoR4lLmiNFfmnKRfLWADtGm8lwmb++B5U24KcO7FrfHL9y2ycIpsxP0o="
     # - secure: "KFTdHiHehYwK2SciIhdv3eDwi6nNWpwyjv8RqfiWs1ItFjr1292kLwKUVcjEz15tVQMmkWz8IbXe1YFMUbd8lswyRFO6Cpeaw9MP8yfnGkOxtdSddEtQyaujY8eiYQPkPjCGXg3uxzmhGdHx7OI4REcrjoWmKZvMXi/01CnXLnU="
 
-  matrix:
-    - BUILD_TYPE=Debug
-    - BUILD_TYPE=Release
+  # matrix:
+    # - BUILD_TYPE=Debug
+    # - BUILD_TYPE=Release
+
+# matrix:
+  # exclude:
+    # For now disable gcc on osx as g++4.8 is not yet available
+    # - os: osx   
+    #   compiler: gcc
 
 matrix:
-  exclude:
-    # For now disable gcc on osx as g++4.8 is not yet available
-    - os: osx   
-      compiler: gcc
+  include:
+
+
+    # Gcc
+    - env: GCC_VERSION=4.9 BUILD_TYPE=Debug ASAN=off LIBCXX=off COVERALLS_BUILD=1
+      os: linux
+      compiler: gcc-4.9
+      addons: &gcc49
+        apt:
+          packages:
+            - g++-4.9
+            - valgrind
+          sources:
+            - ubuntu-toolchain-r-test
+      apt:
+        packages:
+          - python-yaml
+
+    - env: GCC_VERSION=4.9 BUILD_TYPE=Release ASAN=off LIBCXX=off
+      os: linux
+      compiler: gcc-4.9
+      addons: *gcc49
+
+
+    # Clang
+    - env: CLANG_VERSION=3.5 BUILD_TYPE=Debug ASAN=off LIBCXX=on
+      os: linux
+      compiler: clang-3.5
+      addons: &clang35
+        apt:
+          packages:
+            - util-linux
+            - clang-3.5
+            - valgrind
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.5
+
+    - env: CLANG_VERSION=3.5 BUILD_TYPE=Release ASAN=off LIBCXX=on
+      os: linux
+      compiler: clang-3.5
+      addons: *clang35
+
+  
+    # # OSX
+    # - env: BUILD_TYPE=Debug ASAN=off LIBCXX=off
+    #   os: osx
+    #   compiler: clang
+
+    # - env: BUILD_TYPE=Release ASAN=off LIBCXX=off
+    #   os: osx
+    #   compiler: clang
 
     
-    
 before_install:
+  - echo $CXX
+  - echo $CC
   - export CIT_ROOT=`pwd`
   - cd $CIT_ROOT
-  - if [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TRAVIS_BRANCH" == "master" ]; then export MASTER_BUILD=1; fi
-  - if [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ]; then export COVERALLS_BUILD=1; fi
-  - if [ -n "$MASTER_BUILD" ]; then echo "This is the Master build"; fi
-  - if [ -n "$COVERALLS_BUILD" ]; then echo "This is the coverall build"; fi
-  - if [ -n "$RUN_VALGRIND" ]; then echo "Running valgrind"; fi
   - .ci/setup_compiler.sh
   - .ci/init_thirdparty.sh
 
