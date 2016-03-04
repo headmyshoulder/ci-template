@@ -121,7 +121,7 @@ before_install:
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
   - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
 
-  
+  - cd $CIT_ROOT
   - .ci/setup_compiler.sh
 
   - |
@@ -131,6 +131,7 @@ before_install:
         export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
       fi
 
+  - cd $CIT_ROOT
   - .ci/init_thirdparty.sh
 
 
