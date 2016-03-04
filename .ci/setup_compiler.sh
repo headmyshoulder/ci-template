@@ -7,42 +7,53 @@ then
 fi
 
 
-if [ "$CXX" == "clang++" ];
-then
-    export LIBCXX_REPO="http://llvm.org/svn/llvm-project/libcxx/trunk"
-    # export LIBCXX_REPO="http://llvm.org/svn/llvm-project/libcxx/tags/RELEASE_33/final"
-    export LIBCXXABI_REPO="http://llvm.org/svn/llvm-project/libcxxabi/trunk"
-    # export LIBCXXABI_REPO="http://llvm.org/svn/llvm-project/libcxxabi/tags/RELEASE_351/final"
 
-    # Install libc++
-    svn co --quiet $LIBCXX_REPO libcxx
-    cd libcxx/lib && bash buildit
-    sudo cp ./libc++.so.1.0 /usr/lib/
-    sudo mkdir /usr/include/c++/v1
-    cd .. && sudo cp -r include/* /usr/include/c++/v1/
-    cd /usr/lib && sudo ln -sf libc++.so.1.0 libc++.so
-    sudo ln -sf libc++.so.1.0 libc++.so.1 && cd $cwd
-  
-    # Install libc++abi
-    svn co --quiet $LIBCXXABI_REPO libcxxabi
-    cd libcxxabi/lib && bash buildit
-    sudo cp ./libc++abi.so.1.0 /usr/lib/
-    cd .. && sudo cp -r include/* /usr/include/c++/v1/
-    cd /usr/lib && sudo ln -sf libc++abi.so.1.0 libc++abi.so
-    sudo ln -sf libc++abi.so.1.0 libc++abi.so.1 && cd $cwd
+
+if [ "$LIBCXX" == "on" ]; then
+
+    cd $THIRD_PARTY_ROOT
+
+    if   [[ "${COMPILER}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2"
+    elif [[ "${COMPILER}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
+    elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.0";
+    else                                            LLVM_VERSION="trunk"; fi
+    
+    if [[ "${LLVM_VERSION}" != "trunk" ]]; then
+        LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
+        LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
+        LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
+        TAR_FLAGS="-xJ"
+    else
+        LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"
+        LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"
+        LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"
+        TAR_FLAGS="-xz"
+    fi
+
+    mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
+    travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm
+    travis_retry wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxx
+    travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxxabi
+    (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install -DCMAKE_CXX_COMPILER=clang++)
+    (cd llvm/build/projects/libcxx && make install -j2)
+    (cd llvm/build/projects/libcxxabi && make install -j2)
+    export CXXFLAGS="-isystem ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1"
+    export LDFLAGS="-L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
 fi
 
 
 if [ -n "$COVERALLS_BUILD" ];
 then
+
     # gcc 4.9 does not work with lcov 1.10, we need to install lcov 1.11
-    wget -O lcov.tar.gz http://downloads.sourceforge.net/ltp/lcov-1.11.tar.gz
-    mkdir lcov
-    tar xzf lcov.tar.gz -C ./lcov --strip-components=1
-    cd lcov
-    sudo make install
-    cd ..
-    rm -Rf lcov lcov.tar.gz
+    cd $THIRD_PARTY_ROOT
+    curl http://ftp.uk.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz -O
+    tar xfz lcov_1.11.orig.tar.gz
+    mkdir -p lcov && make -C lcov-1.11/ install PREFIX=~/lcov
+    export PATH=$THIRD_PARTY_ROOT/lcov/usr/bin:$PATH
+    rm -Rf lcov-1.11/ lcov_1.11.orig.tar.gz
+    echo $PATH
     
     gem install coveralls-lcov
 fi

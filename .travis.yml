@@ -3,8 +3,10 @@ depth:
 
 language: c++
 
-# need to set to tell travis not to use docker, otherwise sudo would not work
 sudo: false
+
+# need to set to tell travis not to use docker, otherwise sudo would not work
+# sudo: required
 
 # compiler:
 #   - gcc
@@ -89,10 +91,16 @@ matrix:
 
     
 before_install:
+  
   - echo $CXX
   - echo $CC
+  - $CXX --version
+  - $CC --version
+  
   - export CIT_ROOT=`pwd`
-  - cd $CIT_ROOT
+  - export THIRD_PARTY_ROOT=$CIT_ROOT/thrid_party
+  - mkdir $THIRD_PARTY_ROOT
+  
   - .ci/setup_compiler.sh
   - .ci/init_thirdparty.sh
 
