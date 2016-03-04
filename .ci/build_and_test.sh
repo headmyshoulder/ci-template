@@ -11,7 +11,7 @@ then
 fi
 
 cmake .. $CMAKE_OPTIONS
-make -j 3
+make -j 3 VERBOSE=1
 
 
 
