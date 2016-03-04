@@ -5,10 +5,10 @@ cd build
 
 export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE"
 
-if [ -n "COVERALLS_BUILD" ];
-then
-    export CMAKE_OPTIONS="$CMAKE_OPTIONS -DTEST_COVERAGE=ON"
-fi
+# if [ -n "COVERALLS_BUILD" ];
+# then
+#     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DTEST_COVERAGE=ON"
+# fi
 
 cmake .. $CMAKE_OPTIONS
 make -j 3 VERBOSE=1
