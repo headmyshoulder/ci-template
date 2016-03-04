@@ -28,9 +28,11 @@ if ( ${TEST_COVERAGE} )
 endif ()
   
 
-
+find_package ( Boost COMPONENTS program_options REQUIRED )
 
 include_directories ( include )
+include_directories ( ${Boost_INCLUDE_DIR} )
+
 
 
 add_subdirectory ( examples )
