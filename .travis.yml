@@ -94,6 +94,8 @@ before_install:
 
   - export CIT_ROOT=`pwd`
   - export THIRD_PARTY_ROOT=${CIT_ROOT}/third_party
+  
+  - mkdir $THIRD_PARTY_ROOT  
 
   - |
       if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
@@ -117,10 +119,7 @@ before_install:
   
 
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
-  - export PATH=${THIRD_PARTY_ROOT}/cmake/bin:${PATH}
   - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
-
-  - mkdir $THIRD_PARTY_ROOT
 
   
   - .ci/setup_compiler.sh

@@ -10,6 +10,7 @@ mv gmock-1.7.0 $THIRD_PARTY_ROOT/gmock
 wget http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.bz2/download -O /tmp/boost.tar.bz2
 tar jxf /tmp/boost.tar.bz2
 mv boost_1_57_0 $BOOST_ROOT
+cd $BOOST_ROOT
 ./bootstrap.sh
 
 
