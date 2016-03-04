@@ -11,23 +11,16 @@ then
 fi
 
 cmake .. $CMAKE_OPTIONS
-make -j 2 VERBOSE=1
+make -j 3
 
-# clang is broken
-# if [ "$CXX" == "clang++" ];
-# then
-#   exit 0;
-# fi
+
 
 ctest -V
 
-if [ "$TRAVIS_OS_NAME" != "linux" ];
-then
-  exit 0;
-fi
 
-if [ -n "$RUN_VALGRIND" ];
-then 
-    VALGRIND_CMD="valgrind --leak-check=full --show-reachable=yes --error-exitcode=1 "
-    $VALGRIND_CMD test/cit_tests
-fi
+
+# if [ -n "$RUN_VALGRIND" ];
+# then 
+#     VALGRIND_CMD="valgrind --leak-check=full --show-reachable=yes --error-exitcode=1 "
+#     $VALGRIND_CMD test/cit_tests
+# fi
