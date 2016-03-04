@@ -34,6 +34,9 @@ if [ "$LIBCXX" == "on" ]; then
     (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_ROOT}/llvm/install -DCMAKE_CXX_COMPILER=${CXX} )
     (cd llvm/build/projects/libcxx && make install -j2)
     (cd llvm/build/projects/libcxxabi && make install -j2)
+    cp llvm/projects/libcxxabi/include/* ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
+
+    - ls ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
 fi
 
 
