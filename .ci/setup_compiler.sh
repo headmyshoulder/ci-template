@@ -1,7 +1,7 @@
 set -x
 set -e
 
-if [ "$CXX" == "g++" ];
+if [ -n "$GCC_VERSION" ];
 then
     export GCOV=/usr/bin/gcov-$GCC_VERSION
 fi
@@ -31,15 +31,12 @@ if [ "$LIBCXX" == "on" ]; then
     fi
 
     mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-    travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm
-    travis_retry wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxx
-    travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxxabi
+    wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm
+    wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxx
+    wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm/projects/libcxxabi
     (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install -DCMAKE_CXX_COMPILER=clang++)
     (cd llvm/build/projects/libcxx && make install -j2)
     (cd llvm/build/projects/libcxxabi && make install -j2)
-    export CXXFLAGS="-isystem ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1"
-    export LDFLAGS="-L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
-    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
 fi
 
 
