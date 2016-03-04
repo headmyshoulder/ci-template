@@ -52,5 +52,7 @@ then
     rm -Rf lcov-1.11/ lcov_1.11.orig.tar.gz
     
     gem install coveralls-lcov
+
+    lcov --version
 fi
 
