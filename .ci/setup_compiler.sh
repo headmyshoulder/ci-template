@@ -6,6 +6,14 @@ then
     export GCOV=/usr/bin/gcov-$GCC_VERSION
 fi
 
+cd $THIRD_PARTY_ROOT
+if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+  CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz"
+  mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  export PATH=${THIRD_PARTY_ROOT}/cmake/bin:${PATH}
+else
+  brew install cmake
+fi
 
 
 
@@ -13,12 +21,12 @@ if [ "$LIBCXX" == "on" ]; then
 
     cd $THIRD_PARTY_ROOT
 
-    if   [[ "${COMPILER}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2"
-    elif [[ "${COMPILER}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
-    elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.0";
-    else                                            LLVM_VERSION="trunk"; fi
+    if   [ "${CXX}" == "clang++-3.5" ]; then LLVM_VERSION="3.5.2"
+    elif [ "${CXX}" == "clang++-3.6" ]; then LLVM_VERSION="3.6.2";
+    elif [ "${CXX}" == "clang++-3.7" ]; then LLVM_VERSION="3.7.0";
+    else                                     LLVM_VERSION="trunk"; fi
     
-    if [[ "${LLVM_VERSION}" != "trunk" ]]; then
+    if [ "${LLVM_VERSION}" != "trunk" ]; then
         LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
         LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
         LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"

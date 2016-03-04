@@ -40,7 +40,7 @@ matrix:
 
 
     # Gcc
-    - env: GCC_VERSION=4.9 BUILD_TYPE=Debug ASAN=off LIBCXX=off COVERALLS_BUILD=1
+    - env: GCC_VERSION=4.9 BUILD_TYPE=Debug ASAN=off LIBCXX=off COVERALLS_BUILD=1 COVERITY_BUILD=1
       os: linux
       compiler: gcc-4.9
       addons: &gcc49
@@ -103,6 +103,7 @@ before_install:
   - export CIT_ROOT=`pwd`
   - export THIRD_PARTY_ROOT=${CIT_ROOT}/third_party
   - mkdir $THIRD_PARTY_ROOT
+
   
   - .ci/setup_compiler.sh
 
@@ -112,9 +113,10 @@ before_install:
         export LDFLAGS="-L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
         export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
       fi
+  - export PATH=${THIRD_PARTY_ROOT}/cmake/bin:${PATH}
+  - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
   
   - .ci/init_thirdparty.sh
-  - export PATH=${THIRD_PARTY_ROOT}/lcov/usr/bin:${PATH}
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
 
 
@@ -130,6 +132,6 @@ script:
   
 after_success:
   - cd $CIT_ROOT
-  - if [ -n "$MASTER_BUILD" ]; then .ci/commit_coverity_scan.sh; fi
+  - if [ -n "$COVERITY_BUILD" ]; then .ci/commit_coverity_scan.sh; fi
   - cd $CIT_ROOT
   - if [ -n "$COVERALLS_BUILD" ]; then .ci/commit_coveralls.sh; fi 
