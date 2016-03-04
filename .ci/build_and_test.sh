@@ -10,14 +10,8 @@ then
     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DTEST_COVERAGE=ON"
 fi
 
-echo $CXXFLAGS
-echo $LDFLAGS
-
 cmake .. $CMAKE_OPTIONS
-cmake -E environment
-cmake -E echo $CMAKE_CXX_FLAGS
-
-make
+make -j 2 VERBOSE=1
 
 # clang is broken
 # if [ "$CXX" == "clang++" ];

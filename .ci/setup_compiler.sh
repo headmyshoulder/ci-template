@@ -10,22 +10,10 @@ if [ "$LIBCXX" == "on" ]; then
 
     cd $THIRD_PARTY_ROOT
 
-    if   [ "${CXX}" == "clang++-3.5" ]; then LLVM_VERSION="3.5.2"
-    elif [ "${CXX}" == "clang++-3.6" ]; then LLVM_VERSION="3.6.2";
-    elif [ "${CXX}" == "clang++-3.7" ]; then LLVM_VERSION="3.7.0";
-    else                                     LLVM_VERSION="trunk"; fi
-    
-    # if [ "${LLVM_VERSION}" != "trunk" ]; then
-    #     LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
-    #     LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
-    #     LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-    #     TAR_FLAGS="-xJ"
-    # else
-        LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"
-        LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"
-        LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"
-        TAR_FLAGS="-xz"
-    # fi
+    LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"
+    LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"
+    LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"
+    TAR_FLAGS="-xz"
 
     mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
     wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FLAGS} -C llvm
@@ -34,8 +22,6 @@ if [ "$LIBCXX" == "on" ]; then
     (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${THIRD_PARTY_ROOT}/llvm/install -DCMAKE_CXX_COMPILER=${CXX} )
     (cd llvm/build/projects/libcxx && make install -j2)
     (cd llvm/build/projects/libcxxabi && make install -j2)
-    # cp llvm/projects/libcxxabi/include/* ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1
-
 
 fi
 
@@ -54,5 +40,6 @@ then
     gem install coveralls-lcov
 
     lcov --version
+
 fi
 
