@@ -101,15 +101,17 @@ before_install:
   - $CC --version
   
   - export CIT_ROOT=`pwd`
-  - export THIRD_PARTY_ROOT=$CIT_ROOT/third_party
+  - export THIRD_PARTY_ROOT=${CIT_ROOT}/third_party
   - mkdir $THIRD_PARTY_ROOT
   
   - .ci/setup_compiler.sh
-  - .ci/init_thirdparty.sh
 
   - echo $PATH
   - lcov --version
   - which lcov
+
+  - .ci/init_thirdparty.sh
+
 
 
 

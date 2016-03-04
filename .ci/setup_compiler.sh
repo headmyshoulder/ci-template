@@ -54,7 +54,6 @@ then
     ls $THIRD_PARTY_ROOT/lcov/usr/bin
     export PATH=$THIRD_PARTY_ROOT/lcov/usr/bin:$PATH
     rm -Rf lcov-1.11/ lcov_1.11.orig.tar.gz
-    echo $PATH
     
     gem install coveralls-lcov
 fi
