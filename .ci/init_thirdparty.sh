@@ -31,4 +31,5 @@ if [ "$LIBCXX" == "on" ]; then
 fi
 
 
-./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags=\"${ADDITIONAL_FLAGS} ${CXXFLAGS}\" --linkflags=\"-stdlib=libc++ ${LDFLAGS}\"
+./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags="${ADDITIONAL_FLAGS} ${CXXFLAGS}" --linkflags="${LDFLAGS} -stdlib=libc++"
+ldd stage/lib/libboost_program_options.so
