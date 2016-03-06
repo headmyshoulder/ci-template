@@ -39,4 +39,6 @@ if [ -n "$LDFLAGS" ]; then
     OPTIONS+="\""
 fi
 
+echo $OPTIONS
+
 ./b2 --with-thread --with-system --with-program_options -d0 toolset=${TOOLSET} $OPTIONS
