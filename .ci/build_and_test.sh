@@ -10,10 +10,8 @@ export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE"
 #     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DTEST_COVERAGE=ON"
 # fi
 
-ldd ../third_party/boost/stage/lib/libboost_program_options.so
-
 cmake .. $CMAKE_OPTIONS
-make -j 3 VERBOSE=1
+make -j 3
 
 
 
