@@ -24,12 +24,5 @@ if [ -n "$CLANG_VERSION" ]; then
     TOOLSET="clang-${CLANG_VERSION}"
 fi
 
-
-ADDITIONAL_FLAGS="-std=c+14"
-if [ "$LIBCXX" == "on" ]; then
-  ADDITIONAL_FLAGS="${ADDITIONAL_FLAGS} -stdlib=libc++"
-fi
-
-
-./b2 --with-thread --with-system --with-program_options -d0 --toolset=${TOOLSET} --cxxflags="${ADDITIONAL_FLAGS} ${CXXFLAGS}" --linkflags="${LDFLAGS} -stdlib=libc++"
+./b2 --with-thread --with-system --with-program_options -d0 toolset=${TOOLSET} cxxflags="-std=c++14 ${CXXFLAGS}" linkflags="${LDFLAGS}"
 ldd stage/lib/libboost_program_options.so

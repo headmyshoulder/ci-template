@@ -126,8 +126,8 @@ before_install:
 
   - |
       if [ "$LIBCXX" == "on" ]; then
-        export CXXFLAGS="-isystem ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1"
-        export LDFLAGS="-L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
+        export CXXFLAGS="-stdlib=libc++ -isystem ${THIRD_PARTY_ROOT}/llvm/install/include/c++/v1"
+        export LDFLAGS="-stdlib=libc++ -L ${THIRD_PARTY_ROOT}/llvm/install/lib -l c++ -l c++abi"
         export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${THIRD_PARTY_ROOT}/llvm/install/lib"
       fi
 
