@@ -27,11 +27,13 @@ fi
 
 if [ -n "$CXXFLAGS" ]; then
     CXXFLAGS+=" -std=c++14"
+else
+    CXXFLAGS="-std=c++14"
 fi
 
-OPTIONS="cxxflags=$CXXFLAGS"
+OPTIONS="cxxflags=\"$CXXFLAGS \""
 if [ -n "$LDFLAGS" ]; then
-    OPTIONS+=" linkflags=$LDFLAGS"
+    OPTIONS+=" linkflags=\"$LDFLAGS \""
 fi
 
 echo $OPTIONS
