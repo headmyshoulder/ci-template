@@ -31,11 +31,9 @@ else
     CXXFLAGS="-std=c++14"
 fi
 
-OPTIONS="cxxflags=\"$CXXFLAGS \""
 if [ -n "$LDFLAGS" ]; then
-    OPTIONS+=" linkflags=\"$LDFLAGS \""
+	./b2 --with-thread --with-system --with-program_options toolset="$TOOLSET" cxxflags="$CXXFLAGS" linkflags="$LDFLAGS"
+else
+	./b2 --with-thread --with-system --with-program_options toolset="$TOOLSET" cxxflags="$CXXFLAGS"
 fi
 
-echo $OPTIONS
-
-./b2 --with-thread --with-system --with-program_options -d0 toolset=${TOOLSET} $OPTIONS
