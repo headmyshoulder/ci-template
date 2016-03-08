@@ -16,7 +16,7 @@ make -j 3
 
 
 ctest -V
-./examples/example1.cpp
+examples/example1
 
 
 
