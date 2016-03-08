@@ -1,11 +1,6 @@
 set -x
 set -e
 
-if [ -n "$GCC_VERSION" ];
-then
-    export GCOV=/usr/bin/gcov-$GCC_VERSION
-fi
-
 if [ "$LIBCXX" == "on" ]; then
 
     cd $THIRD_PARTY_ROOT

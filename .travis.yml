@@ -40,7 +40,7 @@ matrix:
 
 
     # Gcc
-    - env: GCC_VERSION=4.9 BUILD_TYPE=Debug ASAN=off LIBCXX=off COVERALLS_BUILD=1 COVERITY_BUILD=1
+    - env: GCC_VERSION=4.9 BUILD_TYPE=Debug ASAN=off LIBCXX=off COVERALLS_BUILD=1 COVERITY_BUILD=1 RUN_VALGRIND=1
       os: linux
       compiler: gcc-4.9
       addons: &gcc49
@@ -108,14 +108,17 @@ before_install:
         brew install cmake
       fi
 
+  - if [ -n "$GCC_VERSION" ]; then export GCOV=/usr/bin/gcov-$GCC_VERSION: fi
 
-  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}" GCOV="gcov-${GCC_VERSION}"; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
 
   - echo $CXX
   - echo $CC
+  - echo $GCOV
   - $CXX --version
   - $CC --version
+  - $GCOV --version
   
 
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
