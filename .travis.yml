@@ -116,7 +116,7 @@ before_install:
   - if [ -n "GCOV" ]; then echo $GCOV; fi
   - $CXX --version
   - $CC --version
-  - f [ -n "GCOV" ]; then $GCOV --version; fi
+  - if [ -n "GCOV" ]; then $GCOV --version; fi
   
 
   - export BOOST_ROOT=${THIRD_PARTY_ROOT}/boost
